@@ -5,8 +5,8 @@
 \title{transposer}
 \usage{
 transposer(file.definition = "EntityRelationDefinition.xls",
-  sheet = "Entity", Name.DataBase = "DB release_0.1",
-  db.filename = "NA")
+  sheet = c("Entity", "Relationship"),
+  Name.DataBase = "DB release_0.1", db.filename = "NA")
 }
 \arguments{
 \item{file.definition}{xlxs con las especificaciones de la expresión de importanción
