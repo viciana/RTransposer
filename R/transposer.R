@@ -26,6 +26,12 @@ transposer <- function(file.definition  = 'EntityRelationDefinition.xls',
                        Name.DataBase = 'DB release_0.1',
                        db.filename   = 'NA') {
 
+  ### Crea contenedores tablas receptores
+  INDIVIDUAL  <- ids.skeleton$INDIVIDUAL
+  CONTEXT     <- ids.skeleton$CONTEXT
+  INDIV_INDIV  <- ids.skeleton$INDIV_INDIV
+  INDIV_CONTEXT   <- ids.skeleton$INDIV_CONTEXT
+  CONTEXT_CONTEXT <- ids.skeleton$CONTEXT_CONTEXT
 
   for (j in sheet) {
     data.table::as.data.table(readxl::read_xlsx(file.definition,
@@ -34,47 +40,40 @@ transposer <- function(file.definition  = 'EntityRelationDefinition.xls',
       #-------------------------------------
       ## Carga  de datos ..
       #-------------------------------------
-      ### Crea contenedores tablas receptores
-      INDIVIDUAL <- ids.skeleton$INDIVIDUAL
-      CONTEXT     <- ids.skeleton$CONTEXT
 
       ### Bucle de carga
-      for (i in 1:length(EAVs[,1][[1]]) ) { print (i)
+      for (i in 1:length(EAVs[,1][[1]]) ) {
         EAV <- EAVs[i]
-        table.source  <- get(EAV$tableName)
-        table.reciver <- get(EAV$entityType,ids.skeleton)
+        print (paste0(j,': ',i,'> ',EAV$TableName))
+        table.source  <- get(EAV$TableName)
+        table.reciver <- get(EAV$EntityType,ids.skeleton)
 
-        ### En fase de depuracion ..
-        # print(EAV$tableName)
-        # print(EAV$ValueExpression)
-        # print(EAV$DateExpression)
         ### Solo  se definen las variables columnas que se van  a rellenar,
         ### No es necesario definir las columnas que no recibiran datos y se rellenan a NA por defecto.
-        if (EAV$entityType == 'INDIVIDUAL') {
+        if (EAV$EntityType == 'INDIVIDUAL') {
           table.source[,{c(list( Id_D       = Name.DataBase ,
-                                 Id_I       = eval(parse(text=EAV$entityID)),
+                                 Id_I       = eval(parse(text=EAV$EntityID)),
                                  Source     = EAV$Source,
                                  Type       = EAV$Type,
                                  XXX       = eval(parse(text=EAV$ValueExpression)),
-                                 Date_type  = EAV$Date_type,
+                                 Date_type  = EAV$DateType,
                                  Estimation = EAV$DateEstimationType,
                                  Missing  =   EAV$DateMissingType),
                            eval(parse(text=EAV$DateExpression)))}]    -> pp ;
-          if  ( (!is.na(EAV$output)) &  EAV$output == 'Value_Id_C') {
+          if  ( (!is.na(EAV$Output)) &  EAV$Output == 'Value_Id_C') {
             setnames(pp,'XXX','Value_Id_C')
           } else {
             setnames(pp,'XXX','Value')
             }
           pp <- rbind(pp,table.reciver,fill= TRUE)
           INDIVIDUAL <- rbind(INDIVIDUAL,pp)
-
-        } else if (EAV$entityType == 'CONTEXT') {
+        } else if (EAV$EntityType == 'CONTEXT') {
           table.source[,{c(list( Id_D       = Name.DataBase ,
-                                 Id_C       = eval(parse(text=EAV$entityID)),
+                                 Id_C       = eval(parse(text=EAV$EntityID)),
                                  Source     = EAV$Source,
                                  Type       = EAV$Type,
                                  Value       = eval(parse(text=EAV$ValueExpression)),
-                                 Date_type  = EAV$Date_type,
+                                 Date_type  = EAV$DateType,
                                  Estimation = EAV$DateEstimationType,
                                  Missing  =   EAV$DateMissingType),
                            eval(parse(text=EAV$DateExpression)))}]    -> pp ;
@@ -85,24 +84,75 @@ transposer <- function(file.definition  = 'EntityRelationDefinition.xls',
 
     } else { # is Relationship
 
+      for (i in 1:length(EAVs[,1][[1]]) ) {
+        EAV <- EAVs[i]
+        print (paste0(j,': ',i,'> ',EAV$TableName))
+        table.source  <- get(EAV$TableName)
+        table.reciver <- get(EAV$RelationshipType,ids.skeleton)
+        if (EAV$RelationshipType == 'INDIV_INDIV') {
+          # Relation
+          table.source[,{c(list( Id_D       = Name.DataBase ,
+                                 Id_I_1       = eval(parse(text=EAV$FromEntityID)),
+                                 Id_I_2       = eval(parse(text=EAV$ToEntityID)),
+                                 Source     = EAV$Source,
+                                 Relation    = eval(parse(text=EAV$ValueExpression)),
+                                 Date_type  = EAV$DateType,
+                                 Estimation = EAV$DateEstimationType,
+                                 Missing  =   EAV$DateMissingType),
+                           eval(parse(text=EAV$DateExpression)))}]    -> pp ;
+          pp <- rbind(pp,table.reciver,fill= TRUE)
+          INDIV_INDIV <- rbind(INDIV_INDIV,pp)
+        } else if (EAV$RelationshipType == 'INDIV_CONTEXT') {
+          table.source[,{c(list( Id_D       = Name.DataBase ,
+                                 Id_I       = eval(parse(text=EAV$FromEntityID)),
+                                 Id_C       = eval(parse(text=EAV$ToEntityID)),
+                                 Source     = EAV$Source,
+                                 Relation    = eval(parse(text=EAV$ValueExpression)),
+                                 Date_type  = EAV$DateType,
+                                 Estimation = EAV$DateEstimationType,
+                                 Missing  =   EAV$DateMissingType),
+                           eval(parse(text=EAV$DateExpression)))}]    -> pp ;
+          pp <- rbind(pp,table.reciver,fill= TRUE)
+          INDIV_CONTEXT <- rbind(INDIV_CONTEXT,pp)
+        } else if (EAV$RelationshipType == 'CONTEXT_CONTEXT') {
+          # ID Id_D Id_C_1 Id_C_2 Source Relation DateType Estimation .... Missing
+          table.source[,{c(list( Id_D       = Name.DataBase ,
+                                 Id_C_1       = eval(parse(text=EAV$FromEntityID)),
+                                 Id_C_2       = eval(parse(text=EAV$ToEntityID)),
+                                 Source     = EAV$Source,
+                                 Relation    = eval(parse(text=EAV$ValueExpression)),
+                                 Date_type  = EAV$DateType,
+                                 Estimation = EAV$DateEstimationType,
+                                 Missing  =   EAV$DateMissingType),
+                           eval(parse(text=EAV$DateExpression)))}]    -> pp ;
+          pp <- rbind(pp,table.reciver,fill= TRUE)
+          CONTEXT_CONTEXT <- rbind(CONTEXT_CONTEXT,pp)
+        }
+      }
     }
   }
-
-  # Value      = ifelse(EAV$output=='Value',
-  #                     eval(parse(text=EAV$ValueExpression)),NA),
-  # Value_Id_C = ifelse(EAV$output=='Value_id_C',
-  #                     eval(parse(text=EAV$ValueExpression)),NA),
-  #
 
   ## REORDENA
   setkey(INDIVIDUAL,Id_I)
   setkey(CONTEXT,Id_C)
+  setkey(INDIV_INDIV,Id_I_1,Id_I_2)
+  setkey(INDIV_CONTEXT,Id_I,Id_C)
+  setkey(CONTEXT_CONTEXT,Id_C_1,Id_C_2)
 
   ### fill ID: primary key
   INDIVIDUAL[,':='(ID=1:.N)]
   CONTEXT[,':='(ID=1:.N)]
+  INDIV_INDIV[,':='(ID=1:.N)]
+  INDIV_CONTEXT[,':='(ID=1:.N)]
+  CONTEXT_CONTEXT[,':='(ID=1:.N)]
 
-  outcome <- list (INDIVIDUAL=INDIVIDUAL,CONTEXT=CONTEXT)
+
+  outcome <- list (INDIVIDUAL=INDIVIDUAL,
+                   CONTEXT=CONTEXT,
+                   INDIV_INDIV=INDIV_INDIV,
+                   INDIV_CONTEXT=INDIV_CONTEXT,
+                   CONTEXT_CONTEXT=CONTEXT_CONTEXT
+                   )
 
   return(outcome)
 }
