@@ -92,7 +92,11 @@ MunicipalityName2Code <- function ( mun.names, tab.codes = places_input,
 
 ## Especificaciones de las regla de importanción
 
-Las transformaciones que se aplicaran sobre las variables de los fichero fuentes se define en un libro excell con una estuctura especifica (Se incluyen un ejemplo de este libro en el directorio *inst/extdata/* del paquete) para opterne los registros que compone el IDS.  A continuacion se muestra un ejemplo de generacion, con los datos previamente descargados.
+Las transformaciones que se aplicaran sobre las variables de los fichero fuentes se define en un libro excell con una estructura especifica (Se incluyen un ejemplo de este libro en el directorio *inst/extdata/* del paquete) para optener los registros que compone el IDS.
+
+## Generación de la BD en formato IDS
+
+A continuación se aplica la función  *TRtransposer::tranposer*, con el parámetro el nombre del [fichero  excell](https://github.com/viciana/RTransposer/raw/master/inst/extdata/ERD_UG_Example_1_v10.xlsx) con las distintas transformaciones a aplicar sobre las tablas de datos, previamente cargadas  en el ambiente global de R (*.GlobalEnv).
 ```{r}
 ##--------------------------------------------------------------------------
 ## Transposer with rules to import in  EntityRelationDefinition01.xlsx
@@ -102,9 +106,12 @@ transposer(file.definition = system.file("extdata",
 
 ```
 
-La ejecucion del codigo anterior produce un una lista con 5 elemntos, siendo cada uno de ellos una data.table que sigue las especificaciones del formato IDS.
+La ejecución del código anterior produce una lista con  5 objeto del tipo *data.table* y con la nomenclatura y estructura especificado en el formato IDS.
 
-Desde este objeto se pueden opten fichero en formato CSV, para ser icorporado, a una base de datos SQL. Las siguientes ordenes realizan estos pasos
+A partir de este objeto se pueden obtener las 5  tablas en fichero de texto del tipo CSV, que pueden ser facilmente leídos por programas de base de dato o análisis estadístico.
+
+Las siguientes ordenes realizan esta exportación
+
 ```{r}
 ### Muestra resumen estadistico de resultados::
 print(paste('== INDIVIDUAL == ')) ;  print(resultados$INDIVIDUAL[,.N,keyby=Type])

@@ -4,8 +4,8 @@ Title: What the Package Does (Title Case)
 Version: 0.1.0
 Date: January 2019
 Authors@R: c(
-    person("Viciana", "Francisco J", email = "viciana@us.es", role = "cre"),
-    person("Paiva", "Diogo", email = "", role = "aut"))
+    person("Francisco J", "Viciana",  email = "viciana@us.es", role = "cre"),
+    person( "Diogo", "Paiva", email = "", role = "aut"))
 Maintainer: Francisco J Viciana <viciana@us.es>
 Description: Import data from R data.table object into a Longitudinal 
       Biographical Database, according to  IDS format (Alter and Mandemakers, 2014).
