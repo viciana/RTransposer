@@ -161,7 +161,12 @@
 <div id="especificaciones-de-las-regla-de-importancion" class="section level2">
 <h2 class="hasAnchor">
 <a href="#especificaciones-de-las-regla-de-importancion" class="anchor"></a>Especificaciones de las regla de importanción</h2>
-<p>Las transformaciones que se aplicaran sobre las variables de los fichero fuentes se define en un libro excell con una estuctura especifica (Se incluyen un ejemplo de este libro en el directorio <em>inst/extdata/</em> del paquete) para opterne los registros que compone el IDS. A continuacion se muestra un ejemplo de generacion, con los datos previamente descargados.</p>
+<p>Las transformaciones que se aplicaran sobre las variables de los fichero fuentes se define en un libro excell con una estructura especifica (Se incluyen un ejemplo de este libro en el directorio <em>inst/extdata/</em> del paquete) para optener los registros que compone el IDS.</p>
+</div>
+<div id="generacion-de-la-bd-en-formato-ids" class="section level2">
+<h2 class="hasAnchor">
+<a href="#generacion-de-la-bd-en-formato-ids" class="anchor"></a>Generación de la BD en formato IDS</h2>
+<p>A continuación se aplica la función <em>TRtransposer::tranposer</em>, con el parámetro el nombre del <a href="https://github.com/viciana/RTransposer/raw/master/inst/extdata/ERD_UG_Example_1_v10.xlsx">fichero excell</a> con las distintas transformaciones a aplicar sobre las tablas de datos, previamente cargadas en el ambiente global de R (*.GlobalEnv).</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co">##--------------------------------------------------------------------------</span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">## Transposer with rules to import in  EntityRelationDefinition01.xlsx</span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="../reference/transposer.html">transposer</a></span>(<span class="dt">file.definition =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, </a>
@@ -208,8 +213,9 @@
 <a class="sourceLine" id="cb4-44" data-line-number="44"><span class="co">#&gt; [1] "Relationship: 12&gt; parents"</span></a>
 <a class="sourceLine" id="cb4-45" data-line-number="45"><span class="co">#&gt; [1] "Relationship: 13&gt; parents"</span></a>
 <a class="sourceLine" id="cb4-46" data-line-number="46"><span class="co">#&gt; [1] "Relationship: 14&gt; children_input"</span></a></code></pre></div>
-<p>La ejecucion del codigo anterior produce un una lista con 5 elemntos, siendo cada uno de ellos una data.table que sigue las especificaciones del formato IDS.</p>
-<p>Desde este objeto se pueden opten fichero en formato CSV, para ser icorporado, a una base de datos SQL. Las siguientes ordenes realizan estos pasos</p>
+<p>La ejecución del código anterior produce una lista con 5 objeto del tipo <em>data.table</em> y con la nomenclatura y estructura especificado en el formato IDS.</p>
+<p>A partir de este objeto se pueden obtener las 5 tablas en fichero de texto del tipo CSV, que pueden ser facilmente leídos por programas de base de dato o análisis estadístico.</p>
+<p>Las siguientes ordenes realizan esta exportación</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co">### Muestra resumen estadistico de resultados::</span></a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">'== INDIVIDUAL == '</span>)) ;  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(resultados<span class="op">$</span>INDIVIDUAL[,.N,<span class="dt">keyby=</span>Type])</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; [1] "== INDIVIDUAL == "</span></a>
@@ -268,6 +274,7 @@
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#preparacion-de-los-datos-fuente-">Preparacion de los datos fuente.</a></li>
       <li><a href="#especificaciones-de-las-regla-de-importancion">Especificaciones de las regla de importanción</a></li>
+      <li><a href="#generacion-de-la-bd-en-formato-ids">Generación de la BD en formato IDS</a></li>
       </ul>
 </div>
       </div>

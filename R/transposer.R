@@ -41,7 +41,7 @@ transposer <- function(file.definition  = 'EntityRelationDefinition.xls',
       ## Carga  de datos ..
       #-------------------------------------
 
-      ### Bucle de carga
+      ### Bucle de carga  ## No esta implementado la expresion RowFilter
       for (i in 1:length(EAVs[,1][[1]]) ) {
         EAV <- EAVs[i]
         print (paste0(j,': ',i,'> ',EAV$TableName))
@@ -51,7 +51,8 @@ transposer <- function(file.definition  = 'EntityRelationDefinition.xls',
         ### Solo  se definen las variables columnas que se van  a rellenar,
         ### No es necesario definir las columnas que no recibiran datos y se rellenan a NA por defecto.
         if (EAV$EntityType == 'INDIVIDUAL') {
-          table.source[,{c(list( Id_D       = Name.DataBase ,
+          table.source[eval(parse(text=EAV$RowFilter)),
+                       {c(list( Id_D       = Name.DataBase ,
                                  Id_I       = eval(parse(text=EAV$EntityID)),
                                  Source     = EAV$Source,
                                  Type       = EAV$Type,
@@ -60,6 +61,7 @@ transposer <- function(file.definition  = 'EntityRelationDefinition.xls',
                                  Estimation = EAV$DateEstimationType,
                                  Missing  =   EAV$DateMissingType),
                            eval(parse(text=EAV$DateExpression)))}]    -> pp ;
+          ## Esta fallando ... rellena los dos campos: Value y Value_Id_C
           if  ( (!is.na(EAV$Output)) &  EAV$Output == 'Value_Id_C') {
             setnames(pp,'XXX','Value_Id_C')
           } else {
@@ -68,7 +70,8 @@ transposer <- function(file.definition  = 'EntityRelationDefinition.xls',
           pp <- rbind(pp,table.reciver,fill= TRUE)
           INDIVIDUAL <- rbind(INDIVIDUAL,pp)
         } else if (EAV$EntityType == 'CONTEXT') {
-          table.source[,{c(list( Id_D       = Name.DataBase ,
+          table.source[eval(parse(text=EAV$RowFilter)),
+                       {c(list( Id_D       = Name.DataBase ,
                                  Id_C       = eval(parse(text=EAV$EntityID)),
                                  Source     = EAV$Source,
                                  Type       = EAV$Type,
@@ -91,7 +94,8 @@ transposer <- function(file.definition  = 'EntityRelationDefinition.xls',
         table.reciver <- get(EAV$RelationshipType,ids.skeleton)
         if (EAV$RelationshipType == 'INDIV_INDIV') {
           # Relation
-          table.source[,{c(list( Id_D       = Name.DataBase ,
+          table.source[eval(parse(text=EAV$RowFilter)),
+                       {c(list( Id_D       = Name.DataBase ,
                                  Id_I_1       = eval(parse(text=EAV$FromEntityID)),
                                  Id_I_2       = eval(parse(text=EAV$ToEntityID)),
                                  Source     = EAV$Source,
@@ -103,7 +107,8 @@ transposer <- function(file.definition  = 'EntityRelationDefinition.xls',
           pp <- rbind(pp,table.reciver,fill= TRUE)
           INDIV_INDIV <- rbind(INDIV_INDIV,pp)
         } else if (EAV$RelationshipType == 'INDIV_CONTEXT') {
-          table.source[,{c(list( Id_D       = Name.DataBase ,
+          table.source[eval(parse(text=EAV$RowFilter)),
+                       {c(list( Id_D       = Name.DataBase ,
                                  Id_I       = eval(parse(text=EAV$FromEntityID)),
                                  Id_C       = eval(parse(text=EAV$ToEntityID)),
                                  Source     = EAV$Source,
@@ -116,7 +121,8 @@ transposer <- function(file.definition  = 'EntityRelationDefinition.xls',
           INDIV_CONTEXT <- rbind(INDIV_CONTEXT,pp)
         } else if (EAV$RelationshipType == 'CONTEXT_CONTEXT') {
           # ID Id_D Id_C_1 Id_C_2 Source Relation DateType Estimation .... Missing
-          table.source[,{c(list( Id_D       = Name.DataBase ,
+          table.source[eval(parse(text=EAV$RowFilter)),
+                       {c(list( Id_D       = Name.DataBase ,
                                  Id_C_1       = eval(parse(text=EAV$FromEntityID)),
                                  Id_C_2       = eval(parse(text=EAV$ToEntityID)),
                                  Source     = EAV$Source,

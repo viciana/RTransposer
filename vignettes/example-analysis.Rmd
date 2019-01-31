@@ -28,11 +28,16 @@ require(data.table) ## no tendria que ser necesario ??
 require(readxl)     ## no tendria que ser necesario ??
 rm(list = ls())     ## limpiamos memoria de procesados previos
 
+tmpLoc <- tempdir(check = TRUE) ; print(tmpdir)  
 ## Descarga y descomprensión
-download.file('https://github.com/ICPSR/IDS/raw/master/User_Guide/UG_example_1.zip', destfile = 'UG_example_1.zip') 
-unzip('UG_example_1.zip',list = T)  
-unzip('UG_example_1.zip',files = 'UG_Example_1_v10.xlsx' )  
-file.remove('UG_example_1.zip')
+zipfile <-  paste0(tmpLoc,'/UG_example_1.zip')
+
+download.file('https://github.com/ICPSR/IDS/raw/master/User_Guide/UG_example_1.zip', 
+              destfile = zipfile )
+unzip(zipfile,list = T)  
+
+unzip(zipfile,files = 'UG_Example_1_v10.xlsx',  exdir =  tmpLoc )  
+file.remove(zipfile)
 ```
 Extraemos los datos de las hojas *parent* y *children* y los almacenamos en un objeto del tipo *data.table* y creamos algunas tablas auxiliares derivadas de estas dos tablas fuentes:
 ```{r}
