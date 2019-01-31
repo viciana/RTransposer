@@ -1,0 +1,130 @@
+---
+title: "RTransposer: ejemplo de uso (1)"
+author: "Viciana, F; ..."
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{RTransposer: ejemplo de uso (1)}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Se muestra como usar [R](https://www.r-project.org/) y el paquete **RTransposer** para importar el ejemplo (1) suministrados por [Alter en  el repositorio del paquete "Transposer"](https://github.com/ICPSR/IDS) 
+
+## Preparacion de los datos fuente.
+
+Descargamos los datos del repositorio github: ICPSR/IDS correspondientes al  ejemplo-1 (UG_example_1) y descomprimimos el libro excell *UG_Example_1_v10.xlsx*
+
+```{r}
+library(RTransposer)
+require(data.table) ## no tendria que ser necesario ??
+require(readxl)     ## no tendria que ser necesario ??
+rm(list = ls())     ## limpiamos memoria de procesados previos
+
+## Descarga y descomprensión
+download.file('https://github.com/ICPSR/IDS/raw/master/User_Guide/UG_example_1.zip', destfile = 'UG_example_1.zip') 
+unzip('UG_example_1.zip',list = T)  
+unzip('UG_example_1.zip',files = 'UG_Example_1_v10.xlsx' )  
+file.remove('UG_example_1.zip')
+```
+Extraemos los datos de las hojas *parent* y *children* y los almacenamos en un objeto del tipo *data.table* y creamos algunas tablas auxiliares derivadas de estas dos tablas fuentes:
+```{r}
+
+as.data.table(read_xlsx('./UG_Example_1_v10.xlsx', sheet = 'parents'))  -> parents
+as.data.table(read_xlsx('./UG_Example_1_v10.xlsx', sheet = 'children')) -> children
+
+#------------------------------------
+# Create INPUT tables derived from primaries (if necessary)
+#------------------------------------
+parents[,.(parid,hlast,marriage)][ 
+   children[,
+            .(name,birth, birthloc, kidid= parid*1000+1:.N, 
+                                    momid=parid+2,
+                                    dadid=parid+1),
+            keyby=.(parid)], on='parid'] -> children_input
+
+names.loc  <- names(parents)[grep("loc",names(parents))]
+names.loc  <- paste0('c(', paste(names.loc, collapse = ', '),', children$birthloc )')
+places <- parents[, sort(unique(eval(parse(text=names.loc))))]
+
+places_input<- data.table( 
+  places = places,
+  placeid = 1L:length(places)+100L,
+  level  =  "Neighborhood",
+  nested = 100L,
+  relvar = "Neighborhood and Municipality"
+  )
+# append tow end register
+places_input <-   rbind(places_input, 
+      data.table(  places = c("California","Los Angeles"),
+                                 placeid = c(1L,100L),
+                                 level  =  c("State","Municipality"),
+                                 nested = c(NA,1L),
+                                 relvar = c("","Municipality and State")))
+                                 
+```
+
+Si es necesario se crea funciones auxiliares para la carga, que transformaran los datos originales almacenado en las tablas fuentes:
+```{r}
+###-------------------------------------------------------------------------
+###  auxiliary functions for ValueExpresion
+###-------------------------------------------------------------------------
+#' MunicipalityName2Code
+#'    Entra un vector con nombres de municipios y retorna codigos numericos 
+#'    contenido en la tabla 
+#'    @param mun.names vector con nombre
+#'    @tab.codes  data.table with names and codes
+MunicipalityName2Code <- function ( mun.names, tab.codes = places_input, 
+                                    geo.names='places' ,geo.codes ='placeid' ) {
+   tab.codes[[geo.codes]] -> codes
+   names(codes) <- tab.codes[[geo.names]]
+   return(codes[mun.names])
+}
+
+```
+
+## Especificaciones de las regla de importanción
+
+Las transformaciones que se aplicaran sobre las variables de los fichero fuentes se define en un libro excell con una estructura especifica (Se incluyen un ejemplo de este libro en el directorio *inst/extdata/* del paquete) para optener los registros que compone el IDS.
+
+## Generación de la BD en formato IDS
+
+A continuación se aplica la función  *TRtransposer::tranposer*, con el parámetro el nombre del [fichero  excell](https://github.com/viciana/RTransposer/raw/master/inst/extdata/ERD_UG_Example_1_v10.xlsx) con las distintas transformaciones a aplicar sobre las tablas de datos, previamente cargadas  en el ambiente global de R (*.GlobalEnv).
+```{r}
+##--------------------------------------------------------------------------
+## Transposer with rules to import in  EntityRelationDefinition01.xlsx
+transposer(file.definition = system.file("extdata", 
+                                        "ERD_UG_Example_1_v10.xlsx", 
+                                        package = "RTransposer") ) -> resultados
+
+```
+
+La ejecución del código anterior produce una lista con  5 objeto del tipo *data.table* y con la nomenclatura y estructura especificado en el formato IDS.
+
+A partir de este objeto se pueden obtener las 5  tablas en fichero de texto del tipo CSV, que pueden ser facilmente leídos por programas de base de dato o análisis estadístico.
+
+Las siguientes ordenes realizan esta exportación
+
+```{r}
+### Muestra resumen estadistico de resultados::
+print(paste('== INDIVIDUAL == ')) ;  print(resultados$INDIVIDUAL[,.N,keyby=Type])
+print(paste('== CONTEXT == ')); print(resultados$CONTEXT[,.N,keyby=Type])
+print(paste('== INDIV_INDIV == ')); print(resultados$INDIV_INDIV[,.N,keyby=Relation])
+print(paste('==  INDIV_CONTEXT == ')); print(resultados$INDIV_CONTEXT[,.N,keyby=Relation])
+print(paste('==  CONTEXT_CONTEXT == ')); print(resultados$CONTEXT_CONTEXT[,.N,keyby=Relation])
+
+## Almacena resultados en tablas CSV con resultados
+for (i in  names(resultados)) {
+  write.csv(resultados[[i]],file=paste0(i,'.CSV'),na='',row.names=FALSE)
+}
+dir(pattern = '*.CSV')
+```
+
+
