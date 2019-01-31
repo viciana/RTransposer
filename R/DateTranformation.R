@@ -3,7 +3,7 @@
 #'
 #' Transforma una fecha en formato decimal a formato fecha (puntual o intervalo)
 #'
-#' @param ddate Un valor numerico con el significado de años decimales
+#' @param ddate Un valor numerico con el significado de años decimales (???).
 #'
 #' @param type !no implementado!
 #'
