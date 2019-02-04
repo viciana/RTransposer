@@ -7,7 +7,7 @@
 ddate2date(ddate, type = "start", with = 0.1)
 }
 \arguments{
-\item{ddate}{Un valor numerico con el significado de años decimales (???).}
+\item{ddate}{Un valor numerico con el significado de años decimales}
 
 \item{type}{!no implementado!}
 

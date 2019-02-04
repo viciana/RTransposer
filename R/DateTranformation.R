@@ -85,8 +85,8 @@ date2ymd <- function (dates,names=c('Year','Month','Day')) {
 #'
 #' @param  end.date vector de fechas de termininacion del episodio
 #'
-#' @return data.table con columnas: Start_Year	Start_Month	Start_Day
-#'                                    End_Year	End_Month	End_Day
+#' @return data.table con columnas: Start_year	Start_month	Start_day
+#'                                    End_year	End_month	End_day
 #'
 #' @export
 #'
@@ -95,8 +95,8 @@ date2ymd <- function (dates,names=c('Year','Month','Day')) {
 #'     Episod2ymd(dt.date$start.date,dt.date$end.date)
 Episod2ymd  <- function(start.date,end.date) {
   cbind(
-    date2ymd( start.date, c('Start_Year','Start_Month','Start_Day')),
-    date2ymd( end.date, c('End_Year','End_Month','End_Day'))
+    date2ymd( start.date, c('Start_year','Start_month','Start_day')),
+    date2ymd( end.date, c('End_year','End_month','End_day'))
   ) -> dt.date.int
   return(dt.date.int)
 }
@@ -110,7 +110,7 @@ Episod2ymd  <- function(start.date,end.date) {
 #'
 #' @param  dt.date  tabla con columnas: start.date   end.date central.date
 #'
-#' @return data.table con columnas: Year	Month	Day	Start_Year	Start_Month	Start_Day	End_Year	End_Month	End_Day
+#' @return data.table con columnas: Year	Month	Day	Start_year	Start_month	Start_day	End_year	End_month	End_day
 #'
 #' @export
 #'
@@ -122,8 +122,8 @@ granule.data2ymd  <- function(dt.date) {
  nn <- names(dt.date)
  cbind(
    date2ymd( dt.date$central.date, c('Year','Month','Day')),
-   date2ymd( dt.date$start.date, c('Start_Year','Start_Month','Start_Day')),
-   date2ymd( dt.date$end.date, c('End_Year','End_Month','End_Day'))
+   date2ymd( dt.date$start.date, c('Start_year','Start_month','Start_day')),
+   date2ymd( dt.date$end.date, c('End_year','End_month','End_day'))
    ) -> dt.date.int
  return(dt.date.int)
 }

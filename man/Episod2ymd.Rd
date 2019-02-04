@@ -12,8 +12,8 @@ Episod2ymd(start.date, end.date)
 \item{end.date}{vector de fechas de termininacion del episodio}
 }
 \value{
-data.table con columnas: Start_Year	Start_Month	Start_Day
-                                   End_Year	End_Month	End_Day
+data.table con columnas: Start_year	Start_month	Start_day
+                                   End_year	End_month	End_day
 }
 \description{
 Transforma dos fechas(definen un episodio) en un data.tabla con 6 columnas:

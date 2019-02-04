@@ -66,7 +66,7 @@ transposer <- function(file.definition  = 'EntityRelationDefinition.xls',
             setnames(pp,'XXX','Value_Id_C')
           } else {
             setnames(pp,'XXX','Value')
-            }
+          }
           pp <- rbind(pp,table.reciver,fill= TRUE)
           INDIVIDUAL <- rbind(INDIVIDUAL,pp)
         } else if (EAV$EntityType == 'CONTEXT') {

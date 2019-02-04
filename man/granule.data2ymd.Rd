@@ -10,7 +10,7 @@ granule.data2ymd(dt.date)
 \item{dt.date}{tabla con columnas: start.date   end.date central.date}
 }
 \value{
-data.table con columnas: Year	Month	Day	Start_Year	Start_Month	Start_Day	End_Year	End_Month	End_Day
+data.table con columnas: Year	Month	Day	Start_year	Start_month	Start_day	End_year	End_month	End_day
 }
 \description{
 Matriz de 3 fechas a matiz númerica de 9 elementos
