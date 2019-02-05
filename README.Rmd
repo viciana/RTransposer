@@ -1,6 +1,13 @@
 ---
 title: "README"
+<<<<<<< HEAD
 url: https://viciana.github.io/RTransposer/
+=======
+url: 
+template
+navbar
+
+>>>>>>> a73c83f480d657cbeb18e631661831dbd6049532
 date:  "`r format(Sys.time(), '%d %B, %Y')`"
 output: rmarkdown::github_document
 ---

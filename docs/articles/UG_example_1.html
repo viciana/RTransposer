@@ -98,7 +98,11 @@
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ls">ls</a></span>())     <span class="co">## limpiamos memoria de procesados previos</span></a>
 <a class="sourceLine" id="cb1-7" data-line-number="7"></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8">tmpLoc &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>() ; <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(tmpLoc)  </a>
+<<<<<<< HEAD:docs/articles/UG_example_1.html
 <a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; [1] "/tmp/RtmpEBwTu8"</span></a>
+=======
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; [1] "/tmp/RtmphXXW5K"</span></a>
+>>>>>>> a73c83f480d657cbeb18e631661831dbd6049532:docs/articles/UG_example_1.html
 <a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">## Descarga y descomprensión</span></a>
 <a class="sourceLine" id="cb1-11" data-line-number="11">zipfile &lt;-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(tmpLoc,<span class="st">'/UG_example_1.zip'</span>)</a>
 <a class="sourceLine" id="cb1-12" data-line-number="12"></a>
@@ -231,7 +235,11 @@
 <a class="sourceLine" id="cb5-44" data-line-number="44">  <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/write.table">write.csv</a></span>(outcomes[[i]],<span class="dt">file=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(tmpLoc,<span class="st">'/'</span>,i,<span class="st">'.CSV'</span>),<span class="dt">na=</span><span class="st">''</span>,<span class="dt">row.names=</span><span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb5-45" data-line-number="45">}</a>
 <a class="sourceLine" id="cb5-46" data-line-number="46"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(tmpLoc)</a>
+<<<<<<< HEAD:docs/articles/UG_example_1.html
 <a class="sourceLine" id="cb5-47" data-line-number="47"><span class="co">#&gt; [1] "/tmp/RtmpEBwTu8"</span></a>
+=======
+<a class="sourceLine" id="cb5-47" data-line-number="47"><span class="co">#&gt; [1] "/tmp/RtmphXXW5K"</span></a>
+>>>>>>> a73c83f480d657cbeb18e631661831dbd6049532:docs/articles/UG_example_1.html
 <a class="sourceLine" id="cb5-48" data-line-number="48"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">dir</a></span>(<span class="dt">path =</span> tmpLoc,<span class="dt">pattern =</span> <span class="st">'*.CSV'</span>)</a>
 <a class="sourceLine" id="cb5-49" data-line-number="49"><span class="co">#&gt; [1] "CONTEXT_CONTEXT.CSV" "CONTEXT.CSV"         "INDIV_CONTEXT.CSV"  </span></a>
 <a class="sourceLine" id="cb5-50" data-line-number="50"><span class="co">#&gt; [4] "INDIV_INDIV.CSV"     "INDIVIDUAL.CSV"</span></a></code></pre></div>
