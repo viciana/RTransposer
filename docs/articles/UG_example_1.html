@@ -53,7 +53,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/example-analysis.html">RTransposer: ejemplo de uso (1)</a>
+      <a href="../articles/UG_example_1.html">RTransposer: ejemplo de uso (1)</a>
+    </li>
+    <li>
+      <a href="../articles/UG_example_2.html">RTransposer: example of usage (2)</a>
     </li>
   </ul>
 </li>
@@ -73,10 +76,10 @@
       <h1>RTransposer: ejemplo de uso (1)</h1>
                         <h4 class="author">Viciana, F; …</h4>
             
-            <h4 class="date">2019-01-31</h4>
+            <h4 class="date">2019-02-05</h4>
       
       
-      <div class="hidden name"><code>example-analysis.Rmd</code></div>
+      <div class="hidden name"><code>UG_example_1.Rmd</code></div>
 
     </div>
 
@@ -94,24 +97,31 @@
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; Loading required package: readxl</span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rm">rm</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ls">ls</a></span>())     <span class="co">## limpiamos memoria de procesados previos</span></a>
 <a class="sourceLine" id="cb1-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">## Descarga y descomprensión</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/download.file">download.file</a></span>(<span class="st">'https://github.com/ICPSR/IDS/raw/master/User_Guide/UG_example_1.zip'</span>, <span class="dt">destfile =</span> <span class="st">'UG_example_1.zip'</span>) </a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/unzip">unzip</a></span>(<span class="st">'UG_example_1.zip'</span>,<span class="dt">list =</span> T)  </a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt;                    Name Length                Date</span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; 1    CHILDREN_INPUT.csv  30028 2017-02-15 15:43:00</span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt; 2            entity.csv   3470 2017-02-25 18:52:00</span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; 3     PARENTS_INPUT.csv  24327 2017-02-15 15:42:00</span></a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; 4      PLACES_INPUT.csv   4410 2017-02-15 14:46:00</span></a>
-<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt; 5            ReadMe.txt    603 2017-02-25 19:01:00</span></a>
-<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&gt; 6      relationship.csv   1907 2017-02-25 18:52:00</span></a>
-<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">#&gt; 7 UG_Example_1_v10.xlsx 417114 2017-02-25 19:00:00</span></a>
-<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/unzip">unzip</a></span>(<span class="st">'UG_example_1.zip'</span>,<span class="dt">files =</span> <span class="st">'UG_Example_1_v10.xlsx'</span> )  </a>
-<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/files">file.remove</a></span>(<span class="st">'UG_example_1.zip'</span>)</a>
-<a class="sourceLine" id="cb1-21" data-line-number="21"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-8" data-line-number="8">tmpLoc &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>() ; <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(tmpLoc)  </a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; [1] "/tmp/RtmpEBwTu8"</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">## Descarga y descomprensión</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">zipfile &lt;-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(tmpLoc,<span class="st">'/UG_example_1.zip'</span>)</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/download.file">download.file</a></span>(<span class="st">'https://github.com/ICPSR/IDS/raw/master/User_Guide/UG_example_1.zip'</span>, </a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">              <span class="dt">destfile =</span> zipfile )</a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/unzip">unzip</a></span>(zipfile,<span class="dt">list =</span> T)  </a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt;                    Name Length                Date</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&gt; 1    CHILDREN_INPUT.csv  30028 2017-02-15 15:43:00</span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">#&gt; 2            entity.csv   3470 2017-02-25 18:52:00</span></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="co">#&gt; 3     PARENTS_INPUT.csv  24327 2017-02-15 15:42:00</span></a>
+<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="co">#&gt; 4      PLACES_INPUT.csv   4410 2017-02-15 14:46:00</span></a>
+<a class="sourceLine" id="cb1-21" data-line-number="21"><span class="co">#&gt; 5            ReadMe.txt    603 2017-02-25 19:01:00</span></a>
+<a class="sourceLine" id="cb1-22" data-line-number="22"><span class="co">#&gt; 6      relationship.csv   1907 2017-02-25 18:52:00</span></a>
+<a class="sourceLine" id="cb1-23" data-line-number="23"><span class="co">#&gt; 7 UG_Example_1_v10.xlsx 417114 2017-02-25 19:00:00</span></a>
+<a class="sourceLine" id="cb1-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb1-25" data-line-number="25"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/unzip">unzip</a></span>(zipfile,<span class="dt">files =</span> <span class="st">'UG_Example_1_v10.xlsx'</span>,  <span class="dt">exdir =</span>  tmpLoc )  </a>
+<a class="sourceLine" id="cb1-26" data-line-number="26">xfile &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(tmpLoc,<span class="st">'/UG_Example_1_v10.xlsx'</span>)</a>
+<a class="sourceLine" id="cb1-27" data-line-number="27"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/files">file.remove</a></span>(zipfile)</a>
+<a class="sourceLine" id="cb1-28" data-line-number="28"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
 <p>Extraemos los datos de las hojas <em>parent</em> y <em>children</em> y los almacenamos en un objeto del tipo <em>data.table</em> y creamos algunas tablas auxiliares derivadas de estas dos tablas fuentes:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/data.table/topics/as.data.table">as.data.table</a></span>(<span class="kw"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_xlsx</a></span>(<span class="st">'./UG_Example_1_v10.xlsx'</span>, <span class="dt">sheet =</span> <span class="st">'parents'</span>))  -&gt;<span class="st"> </span>parents</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/data.table/topics/as.data.table">as.data.table</a></span>(<span class="kw"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_xlsx</a></span>(<span class="st">'./UG_Example_1_v10.xlsx'</span>, <span class="dt">sheet =</span> <span class="st">'children'</span>)) -&gt;<span class="st"> </span>children</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/data.table/topics/as.data.table">as.data.table</a></span>(<span class="kw"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_xlsx</a></span>(xfile, <span class="dt">sheet =</span> <span class="st">'parents'</span>))  -&gt;<span class="st"> </span>parents</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/data.table/topics/as.data.table">as.data.table</a></span>(<span class="kw"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_xlsx</a></span>(xfile, <span class="dt">sheet =</span> <span class="st">'children'</span>)) -&gt;<span class="st"> </span>children</a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#------------------------------------</span></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co"># Create INPUT tables derived from primaries (if necessary)</span></a>
@@ -171,53 +181,12 @@
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">## Transposer with rules to import in  EntityRelationDefinition01.xlsx</span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="../reference/transposer.html">transposer</a></span>(<span class="dt">file.definition =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, </a>
 <a class="sourceLine" id="cb4-4" data-line-number="4">                                        <span class="st">"ERD_UG_Example_1_v10.xlsx"</span>, </a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">                                        <span class="dt">package =</span> <span class="st">"RTransposer"</span>) ) -&gt;<span class="st"> </span>resultados</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; [1] "Entity: 1&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; [1] "Entity: 2&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; [1] "Entity: 3&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; [1] "Entity: 4&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; [1] "Entity: 5&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; [1] "Entity: 6&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; [1] "Entity: 7&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; [1] "Entity: 8&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt; [1] "Entity: 9&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt; [1] "Entity: 10&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; [1] "Entity: 11&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; [1] "Entity: 12&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; [1] "Entity: 13&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; [1] "Entity: 14&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt; [1] "Entity: 15&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; [1] "Entity: 16&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt; [1] "Entity: 17&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">#&gt; [1] "Entity: 18&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co">#&gt; [1] "Entity: 19&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co">#&gt; [1] "Entity: 20&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-26" data-line-number="26"><span class="co">#&gt; [1] "Entity: 21&gt; children_input"</span></a>
-<a class="sourceLine" id="cb4-27" data-line-number="27"><span class="co">#&gt; [1] "Entity: 22&gt; children_input"</span></a>
-<a class="sourceLine" id="cb4-28" data-line-number="28"><span class="co">#&gt; [1] "Entity: 23&gt; children_input"</span></a>
-<a class="sourceLine" id="cb4-29" data-line-number="29"><span class="co">#&gt; [1] "Entity: 24&gt; children_input"</span></a>
-<a class="sourceLine" id="cb4-30" data-line-number="30"><span class="co">#&gt; [1] "Entity: 25&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-31" data-line-number="31"><span class="co">#&gt; [1] "Entity: 26&gt; places_input"</span></a>
-<a class="sourceLine" id="cb4-32" data-line-number="32"><span class="co">#&gt; [1] "Entity: 27&gt; places_input"</span></a>
-<a class="sourceLine" id="cb4-33" data-line-number="33"><span class="co">#&gt; [1] "Relationship: 1&gt; children_input"</span></a>
-<a class="sourceLine" id="cb4-34" data-line-number="34"><span class="co">#&gt; [1] "Relationship: 2&gt; children_input"</span></a>
-<a class="sourceLine" id="cb4-35" data-line-number="35"><span class="co">#&gt; [1] "Relationship: 3&gt; children_input"</span></a>
-<a class="sourceLine" id="cb4-36" data-line-number="36"><span class="co">#&gt; [1] "Relationship: 4&gt; children_input"</span></a>
-<a class="sourceLine" id="cb4-37" data-line-number="37"><span class="co">#&gt; [1] "Relationship: 5&gt; children_input"</span></a>
-<a class="sourceLine" id="cb4-38" data-line-number="38"><span class="co">#&gt; [1] "Relationship: 6&gt; children_input"</span></a>
-<a class="sourceLine" id="cb4-39" data-line-number="39"><span class="co">#&gt; [1] "Relationship: 7&gt; children_input"</span></a>
-<a class="sourceLine" id="cb4-40" data-line-number="40"><span class="co">#&gt; [1] "Relationship: 8&gt; children_input"</span></a>
-<a class="sourceLine" id="cb4-41" data-line-number="41"><span class="co">#&gt; [1] "Relationship: 9&gt; children_input"</span></a>
-<a class="sourceLine" id="cb4-42" data-line-number="42"><span class="co">#&gt; [1] "Relationship: 10&gt; places_input"</span></a>
-<a class="sourceLine" id="cb4-43" data-line-number="43"><span class="co">#&gt; [1] "Relationship: 11&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-44" data-line-number="44"><span class="co">#&gt; [1] "Relationship: 12&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-45" data-line-number="45"><span class="co">#&gt; [1] "Relationship: 13&gt; parents"</span></a>
-<a class="sourceLine" id="cb4-46" data-line-number="46"><span class="co">#&gt; [1] "Relationship: 14&gt; children_input"</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-5" data-line-number="5">                                        <span class="dt">package =</span> <span class="st">"RTransposer"</span>) ) -&gt;<span class="st"> </span>outcomes</a></code></pre></div>
 <p>La ejecución del código anterior produce una lista con 5 objeto del tipo <em>data.table</em> y con la nomenclatura y estructura especificado en el formato IDS.</p>
 <p>A partir de este objeto se pueden obtener las 5 tablas en fichero de texto del tipo CSV, que pueden ser facilmente leídos por programas de base de dato o análisis estadístico.</p>
 <p>Las siguientes ordenes realizan esta exportación</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co">### Muestra resumen estadistico de resultados::</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">'== INDIVIDUAL == '</span>)) ;  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(resultados<span class="op">$</span>INDIVIDUAL[,.N,<span class="dt">keyby=</span>Type])</a>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co">### Muestra resumen estadistico de outcomes::</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">'== INDIVIDUAL == '</span>)) ;  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(outcomes<span class="op">$</span>INDIVIDUAL[,.N,<span class="dt">keyby=</span>Type])</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; [1] "== INDIVIDUAL == "</span></a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt;                  Type   N</span></a>
 <a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;  1:        BIRTH_DATE 565</span></a>
@@ -230,26 +199,26 @@
 <a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt;  8: MARRIAGE_LOCATION 200</span></a>
 <a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt;  9:        OCCUPATION 200</span></a>
 <a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; 10:               SEX 200</span></a>
-<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">'== CONTEXT == '</span>)); <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(resultados<span class="op">$</span>CONTEXT[,.N,<span class="dt">keyby=</span>Type])</a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">'== CONTEXT == '</span>)); <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(outcomes<span class="op">$</span>CONTEXT[,.N,<span class="dt">keyby=</span>Type])</a>
 <a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; [1] "== CONTEXT == "</span></a>
 <a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt;     Type   N</span></a>
 <a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; 1: LEVEL 174</span></a>
 <a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; 2:  NAME  74</span></a>
-<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">'== INDIV_INDIV == '</span>)); <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(resultados<span class="op">$</span>INDIV_INDIV[,.N,<span class="dt">keyby=</span>Relation])</a>
+<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">'== INDIV_INDIV == '</span>)); <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(outcomes<span class="op">$</span>INDIV_INDIV[,.N,<span class="dt">keyby=</span>Relation])</a>
 <a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt; [1] "== INDIV_INDIV == "</span></a>
 <a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt;    Relation   N</span></a>
 <a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt; 1:    Child 730</span></a>
 <a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt; 2:   Father 365</span></a>
-<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; 3:  Husband 365</span></a>
+<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; 3:  Husband 100</span></a>
 <a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; 4:   Mother 365</span></a>
-<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co">#&gt; 5:     Wife 365</span></a>
-<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">'==  INDIV_CONTEXT == '</span>)); <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(resultados<span class="op">$</span>INDIV_CONTEXT[,.N,<span class="dt">keyby=</span>Relation])</a>
+<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co">#&gt; 5:     Wife 100</span></a>
+<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">'==  INDIV_CONTEXT == '</span>)); <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(outcomes<span class="op">$</span>INDIV_CONTEXT[,.N,<span class="dt">keyby=</span>Relation])</a>
 <a class="sourceLine" id="cb5-29" data-line-number="29"><span class="co">#&gt; [1] "==  INDIV_CONTEXT == "</span></a>
 <a class="sourceLine" id="cb5-30" data-line-number="30"><span class="co">#&gt;    Relation   N</span></a>
 <a class="sourceLine" id="cb5-31" data-line-number="31"><span class="co">#&gt; 1:    Child 365</span></a>
-<a class="sourceLine" id="cb5-32" data-line-number="32"><span class="co">#&gt; 2:  Husband 365</span></a>
-<a class="sourceLine" id="cb5-33" data-line-number="33"><span class="co">#&gt; 3:     Wife 365</span></a>
-<a class="sourceLine" id="cb5-34" data-line-number="34"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">'==  CONTEXT_CONTEXT == '</span>)); <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(resultados<span class="op">$</span>CONTEXT_CONTEXT[,.N,<span class="dt">keyby=</span>Relation])</a>
+<a class="sourceLine" id="cb5-32" data-line-number="32"><span class="co">#&gt; 2:  Husband 100</span></a>
+<a class="sourceLine" id="cb5-33" data-line-number="33"><span class="co">#&gt; 3:     Wife 100</span></a>
+<a class="sourceLine" id="cb5-34" data-line-number="34"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">'==  CONTEXT_CONTEXT == '</span>)); <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(outcomes<span class="op">$</span>CONTEXT_CONTEXT[,.N,<span class="dt">keyby=</span>Relation])</a>
 <a class="sourceLine" id="cb5-35" data-line-number="35"><span class="co">#&gt; [1] "==  CONTEXT_CONTEXT == "</span></a>
 <a class="sourceLine" id="cb5-36" data-line-number="36"><span class="co">#&gt;                         Relation   N</span></a>
 <a class="sourceLine" id="cb5-37" data-line-number="37"><span class="co">#&gt; 1:                                 1</span></a>
@@ -258,12 +227,18 @@
 <a class="sourceLine" id="cb5-40" data-line-number="40"><span class="co">#&gt; 4:        Union and Neighborhood 665</span></a>
 <a class="sourceLine" id="cb5-41" data-line-number="41"></a>
 <a class="sourceLine" id="cb5-42" data-line-number="42"><span class="co">## Almacena resultados en tablas CSV con resultados</span></a>
-<a class="sourceLine" id="cb5-43" data-line-number="43"><span class="cf">for</span> (i <span class="cf">in</span>  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(resultados)) {</a>
-<a class="sourceLine" id="cb5-44" data-line-number="44">  <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/write.table">write.csv</a></span>(resultados[[i]],<span class="dt">file=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(i,<span class="st">'.CSV'</span>),<span class="dt">na=</span><span class="st">''</span>,<span class="dt">row.names=</span><span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb5-43" data-line-number="43"><span class="cf">for</span> (i <span class="cf">in</span>  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(outcomes)) {</a>
+<a class="sourceLine" id="cb5-44" data-line-number="44">  <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/write.table">write.csv</a></span>(outcomes[[i]],<span class="dt">file=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(tmpLoc,<span class="st">'/'</span>,i,<span class="st">'.CSV'</span>),<span class="dt">na=</span><span class="st">''</span>,<span class="dt">row.names=</span><span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb5-45" data-line-number="45">}</a>
-<a class="sourceLine" id="cb5-46" data-line-number="46"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">dir</a></span>(<span class="dt">pattern =</span> <span class="st">'*.CSV'</span>)</a>
-<a class="sourceLine" id="cb5-47" data-line-number="47"><span class="co">#&gt; [1] "CONTEXT_CONTEXT.CSV" "CONTEXT.CSV"         "INDIV_CONTEXT.CSV"  </span></a>
-<a class="sourceLine" id="cb5-48" data-line-number="48"><span class="co">#&gt; [4] "INDIV_INDIV.CSV"     "INDIVIDUAL.CSV"</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-46" data-line-number="46"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(tmpLoc)</a>
+<a class="sourceLine" id="cb5-47" data-line-number="47"><span class="co">#&gt; [1] "/tmp/RtmpEBwTu8"</span></a>
+<a class="sourceLine" id="cb5-48" data-line-number="48"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list.files">dir</a></span>(<span class="dt">path =</span> tmpLoc,<span class="dt">pattern =</span> <span class="st">'*.CSV'</span>)</a>
+<a class="sourceLine" id="cb5-49" data-line-number="49"><span class="co">#&gt; [1] "CONTEXT_CONTEXT.CSV" "CONTEXT.CSV"         "INDIV_CONTEXT.CSV"  </span></a>
+<a class="sourceLine" id="cb5-50" data-line-number="50"><span class="co">#&gt; [4] "INDIV_INDIV.CSV"     "INDIVIDUAL.CSV"</span></a></code></pre></div>
+<p>Borramos los ficheros de prueba …</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/files">file.remove</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(tmpLoc,<span class="st">'/'</span>,<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(outcomes),<span class="st">'.CSV'</span>))</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/files">file.remove</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(tmpLoc,<span class="st">'/'</span>,<span class="st">'UG_Example_1_v10.xlsx'</span>))</a></code></pre></div>
 </div>
   </div>
 
