@@ -1,0 +1,156 @@
+---
+title: "RTransposer: example of usage (2)"
+author: "Viciana, F; Paiva,D"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{RTransposer: ejemplo de uso (2)}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+It shows how to use [R](https://www.r-project.org/) and **RTransposer** package to import the example (2) provided by [Alter in the "Transposer" package repository](https://github.com/ICPSR/IDS) 
+
+## Source file preparation
+
+Downloading the data from github repository: ICPSR/IDS corresponding to example 2 (UG_example_2) and uncompress the excel file *UG_Example_2_v10.xlsx*
+
+```{r}
+library(RTransposer)
+require(data.table) 
+require(readxl)     
+rm(list = ls())     
+
+tmpLoc <- tempdir() ; print(tmpLoc)  # creation of a temporary folder for files used and produced in this script
+## Download and uncompress
+zipfile <-  paste0(tmpLoc,'/UG_example_2.zip')
+
+download.file('https://github.com/ICPSR/IDS/raw/master/User_Guide/UG_example_2.zip', 
+              destfile = zipfile )
+unzip(zipfile,list = T)  
+
+unzip(zipfile,files = 'UG_Example_2_v10.xlsx',  exdir =  tmpLoc )  
+xfile <- paste0(tmpLoc,'/UG_Example_2_v10.xlsx')
+file.remove(zipfile)
+
+```
+Data exrtraction from *parent* and *children* sheets, storage in a *data.table* type object and creation of some auxiliary/imput tables derived from these two source tables:
+```{r}
+
+as.data.table(read_xlsx(xfile, sheet = 'parents'))  -> parents
+as.data.table(read_xlsx(xfile, sheet = 'children')) -> children
+
+#------------------------------------
+# Create INPUT tables derived from primaries (if necessary)  # in this case are 4, by sources (births, deaths, marriages) plus places
+#------------------------------------
+# places
+names.loc  <- names(parents)[grep("loc",names(parents))]
+names.loc  <- paste0('c(', paste(names.loc, collapse = ', '),', children$birthloc )')
+places <- parents[, sort(unique(eval(parse(text=names.loc))))]
+
+places_input<- data.table(
+  place  = places,
+  placeid = 1L:length(places)+100L,
+  level  =  "Neighborhood",
+  nested = 100L,
+  relvar = "Neighborhood and Municipality"
+)
+  # append tow end register
+places_input <-   rbind(places_input,
+                        data.table(  place = c("California","Los Angeles"),
+                                     placeid = c(1L,100L),
+                                     level  =  c("State","Municipality"),
+                                     nested = c(NA,1L),
+                                     relvar = c("","Municipality and State")))
+
+# marriages
+parents[,.(parid,hfirst,hlast,wfirst,wlast,hocc,wocc,hid=parid*10+1,wid=parid*10+2,marriage,marrloc)]  -> marriages_input
+
+# deaths
+rbind(parents[,.(idi=parid*10+1,fname=hfirst,lname=hlast,death=hdeath,deathloc=hdeathloc)],
+      parents[,.(idi=parid*10+2,fname=wfirst,lname=wlast,death=wdeath,deathloc=wdeathloc)]) -> deaths_input
+
+# births
+rbind(parents[,.(kidid=parid*10+1,fname=hfirst,lname=hlast,dadid=NA,momid=NA,birth=hbirth,birthloc=hbirthloc)],
+      parents[,.(kidid=parid*10+2,fname=wfirst,lname=wlast,dadid=NA,momid=NA,birth=wbirth,birthloc=wbirthloc)],
+      parents[,.(parid,lname=hlast)][
+        children[,
+                 .(fname=name,birth, birthloc, kidid= parid*1000+1:.N,
+                   momid=parid*10+2,
+                   dadid=parid*10+1),
+                 keyby=.(parid)], on='parid'][,.(kidid,fname,lname,dadid,momid,birth,birthloc)]) -> births_input
+
+
+```
+
+If necessary, functions should be created to aid with the input, by transforming the original data stored in the source table; in this case it is created a function to convert geographic names (strings) into codes (integers):
+```{r}
+###-------------------------------------------------------------------------
+###  auxiliary functions for ValueExpresion
+###-------------------------------------------------------------------------
+#' MunicipalityName2Code
+#'    Input of a vector of municipality names and output of numeric codes
+#'    contained in the table 
+#'    @param mun.names vector con nombre
+#'    @tab.codes  data.table with names and codes
+MunicipalityName2Code <- function ( mun.names, tab.codes = places_input, 
+                                    geo.names='places' ,geo.codes ='placeid' ) {
+   tab.codes[[geo.codes]] -> codes
+   names(codes) <- tab.codes[[geo.names]]
+   return(codes[mun.names])
+}
+
+```
+
+## Specifications of the import rules
+
+The transformations applied to the variables in the source files are defined in a excel book with a specific structure (an example of this book can be found in the package's *inst/extdata/* folder) to obtain the records that compose the IDS. 
+
+## Generating the database in IDS format
+
+The *TRtransposer::tranposer* is applied, having as parameter the name of the [excel file](https://github.com/viciana/RTransposer/raw/master/inst/extdata/ERD_UG_Example_2_v10.xlsx) with the diferent transformations to be applied over the data tables, previously loaded in R's global enviroment (*.GlobalEnv).
+```{r results="hide"}
+##--------------------------------------------------------------------------
+## Transposer with rules to import in  EntityRelationDefinition01.xlsx
+transposer(file.definition = system.file("extdata", 
+                                        "ERD_UG_Example_2_v10.xlsx", 
+                                        package = "RTransposer") ) -> outcomes
+
+```
+
+By running the previous code a list is produced containing 5 *data.table* type objects with the IDS specific names and structure.
+
+From this list it is possible to get the 5 tables in .CSV file, that can be easily read by statistical analysis base softwares.
+
+The following exports these tables.
+
+```{r}
+### Statistical summary of outcomes::
+print(paste('== INDIVIDUAL == ')) ;  print(outcomes$INDIVIDUAL[,.N,keyby=Type])
+print(paste('== CONTEXT == ')); print(outcomes$CONTEXT[,.N,keyby=Type])
+print(paste('== INDIV_INDIV == ')); print(outcomes$INDIV_INDIV[,.N,keyby=Relation])
+print(paste('==  INDIV_CONTEXT == ')); print(outcomes$INDIV_CONTEXT[,.N,keyby=Relation])
+print(paste('==  CONTEXT_CONTEXT == ')); print(outcomes$CONTEXT_CONTEXT[,.N,keyby=Relation])
+
+## Storages the outcomes in CSV tables
+for (i in  names(outcomes)) {
+  write.csv(outcomes[[i]],file=paste0(tmpLoc,'/',i,'.CSV'),na='',row.names=FALSE)
+}
+print(tmpLoc)
+dir(path = tmpLoc,pattern = '*.CSV')
+```
+
+Eliminates used temporary files
+```{r results="hide", eval=FALSE}
+
+file.remove(paste0(tmpLoc,'/',names(outcomes),'.CSV'))
+file.remove(paste0(tmpLoc,'/','UG_Example_2_v10.xlsx'))
+```
+

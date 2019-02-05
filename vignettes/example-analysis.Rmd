@@ -28,7 +28,7 @@ require(data.table) ## no tendria que ser necesario ??
 require(readxl)     ## no tendria que ser necesario ??
 rm(list = ls())     ## limpiamos memoria de procesados previos
 
-tmpLoc <- tempdir(check = TRUE) ; print(tmpdir)  
+tmpLoc <- tempdir() ; print(tmpLoc)  
 ## Descarga y descomprensión
 zipfile <-  paste0(tmpLoc,'/UG_example_1.zip')
 
@@ -37,13 +37,15 @@ download.file('https://github.com/ICPSR/IDS/raw/master/User_Guide/UG_example_1.z
 unzip(zipfile,list = T)  
 
 unzip(zipfile,files = 'UG_Example_1_v10.xlsx',  exdir =  tmpLoc )  
+xfile <- paste0(tmpLoc,'/UG_Example_1_v10.xlsx')
 file.remove(zipfile)
+
 ```
 Extraemos los datos de las hojas *parent* y *children* y los almacenamos en un objeto del tipo *data.table* y creamos algunas tablas auxiliares derivadas de estas dos tablas fuentes:
 ```{r}
 
-as.data.table(read_xlsx('./UG_Example_1_v10.xlsx', sheet = 'parents'))  -> parents
-as.data.table(read_xlsx('./UG_Example_1_v10.xlsx', sheet = 'children')) -> children
+as.data.table(read_xlsx(xfile, sheet = 'parents'))  -> parents
+as.data.table(read_xlsx(xfile, sheet = 'children')) -> children
 
 #------------------------------------
 # Create INPUT tables derived from primaries (if necessary)
@@ -102,12 +104,12 @@ Las transformaciones que se aplicaran sobre las variables de los fichero fuentes
 ## Generación de la BD en formato IDS
 
 A continuación se aplica la función  *TRtransposer::tranposer*, con el parámetro el nombre del [fichero  excell](https://github.com/viciana/RTransposer/raw/master/inst/extdata/ERD_UG_Example_1_v10.xlsx) con las distintas transformaciones a aplicar sobre las tablas de datos, previamente cargadas  en el ambiente global de R (*.GlobalEnv).
-```{r}
+```{r results="hide"}
 ##--------------------------------------------------------------------------
 ## Transposer with rules to import in  EntityRelationDefinition01.xlsx
 transposer(file.definition = system.file("extdata", 
                                         "ERD_UG_Example_1_v10.xlsx", 
-                                        package = "RTransposer") ) -> resultados
+                                        package = "RTransposer") ) -> outcomes
 
 ```
 
@@ -118,18 +120,25 @@ A partir de este objeto se pueden obtener las 5  tablas en fichero de texto del 
 Las siguientes ordenes realizan esta exportación
 
 ```{r}
-### Muestra resumen estadistico de resultados::
-print(paste('== INDIVIDUAL == ')) ;  print(resultados$INDIVIDUAL[,.N,keyby=Type])
-print(paste('== CONTEXT == ')); print(resultados$CONTEXT[,.N,keyby=Type])
-print(paste('== INDIV_INDIV == ')); print(resultados$INDIV_INDIV[,.N,keyby=Relation])
-print(paste('==  INDIV_CONTEXT == ')); print(resultados$INDIV_CONTEXT[,.N,keyby=Relation])
-print(paste('==  CONTEXT_CONTEXT == ')); print(resultados$CONTEXT_CONTEXT[,.N,keyby=Relation])
+### Muestra resumen estadistico de outcomes::
+print(paste('== INDIVIDUAL == ')) ;  print(outcomes$INDIVIDUAL[,.N,keyby=Type])
+print(paste('== CONTEXT == ')); print(outcomes$CONTEXT[,.N,keyby=Type])
+print(paste('== INDIV_INDIV == ')); print(outcomes$INDIV_INDIV[,.N,keyby=Relation])
+print(paste('==  INDIV_CONTEXT == ')); print(outcomes$INDIV_CONTEXT[,.N,keyby=Relation])
+print(paste('==  CONTEXT_CONTEXT == ')); print(outcomes$CONTEXT_CONTEXT[,.N,keyby=Relation])
 
 ## Almacena resultados en tablas CSV con resultados
-for (i in  names(resultados)) {
-  write.csv(resultados[[i]],file=paste0(i,'.CSV'),na='',row.names=FALSE)
+for (i in  names(outcomes)) {
+  write.csv(outcomes[[i]],file=paste0(tmpLoc,'/',i,'.CSV'),na='',row.names=FALSE)
 }
-dir(pattern = '*.CSV')
+print(tmpLoc)
+dir(path = tmpLoc,pattern = '*.CSV')
 ```
 
+Borramos los ficheros de prueba ...
+```{r results="hide", eval=FALSE}
+
+file.remove(paste0(tmpLoc,'/',names(outcomes),'.CSV'))
+file.remove(paste0(tmpLoc,'/','UG_Example_1_v10.xlsx'))
+```
 
