@@ -1,15 +1,14 @@
-#' Esquema de las tablas del IDS
+#' IDS tables
 #'
-#' Contiene una lista de estructura vacias de las tablas de IDS
-#' diamonds.
+#' Contains an empty structure list of the tables Intermediate Data Structure (IDS)
 #'
 #' @format A list  with 4 data.tables
 #' \describe{
-#'   \item{INDIVIDUAL}{tabla de atributos persona}
-#'   \item{CONTEXT}{tabla de atributos contexto}
-#'   \item{INDIV_INDIV}{relaciones entre individuos}
-#'   \item{INDIV_CONTEX}{I-c}
-#'   \item{CONTEX_CONTEX}{c-c}
+#'   \item{INDIVIDUAL}{attributes of individuals}
+#'   \item{CONTEXT}{attributes of the contextsos}
+#'   \item{INDIV_INDIV}{relationships between individuals}
+#'   \item{INDIV_CONTEX}{relationships between individuals and contexts}
+#'   \item{CONTEX_CONTEX}{relationships between contexts}
 #' }
-#' @source \url{http://www.diamondse.info/}
+#' @source \url{https://disseminate.objectrepository.org/file/master/10622/23526343-2017-0004}
 "ids.skeleton"
