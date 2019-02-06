@@ -6,7 +6,7 @@
 \usage{
 transposer(file.definition = "EntityRelationDefinition.xls",
   sheet = c("Entity", "Relationship"),
-  Name.DataBase = "DB release_0.1", db.filename = "NA")
+  Name.DataBase = "DB release_0.1", output.csv = NA)
 }
 \arguments{
 \item{file.definition}{xlsx-files with the instructions to perform
@@ -19,8 +19,7 @@ instructions. Only 'Entity' and/or 'Relationship' is allowed.}
 \item{Name.DataBase}{Name of the database that identifies the data
 within the IDS network.}
 
-\item{db.filename}{Not yet implemented. The name will be the SQLite
-database where the results will be stored in IDS format.}
+\item{output.csv}{path where IDS files are stored. If output.csv = NA csv files are not produced}
 }
 \value{
 outcome A list with the tables INDIVIDUAL, CONTEXT,

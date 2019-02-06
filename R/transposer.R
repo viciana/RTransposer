@@ -2,7 +2,7 @@
 #'
 #'  Main function to tranfer a set of data.table(s) present in
 #'  .GlobalEnv on an IDS structure
-#' 
+#'
 #' @param file.definition xlsx-files with the instructions to perform
 #'     the transfer of the data contained in the data.table objects
 #'     present in .GlobalEnv to the tables required by the IDS format
@@ -12,9 +12,7 @@
 #'     instructions. Only 'Entity' and/or 'Relationship' is allowed.
 #'
 #
-#'
-#' @param db.filename Not yet implemented. The name will be the SQLite
-#'     database where the results will be stored in IDS format.
+#' @param output.csv   path where IDS files are stored. If output.csv = NA csv files are not produced
 #'
 #' @param Name.DataBase Name of the database that identifies the data
 #'     within the IDS network.
@@ -22,9 +20,9 @@
 #'
 #' @importFrom data.table .N := setkey
 #'
-#' @importFrom  readxl read_xlsx 
+#' @importFrom  readxl read_xlsx
 #'
-#' @export 
+#' @export
 #'
 #' @return outcome A list with the tables INDIVIDUAL, CONTEXT,
 #'     INDIV_INDIV, INDIV_CONTEXT, CONTEXT_CONTEXT with the results of
@@ -35,7 +33,7 @@
 transposer <- function(file.definition  = 'EntityRelationDefinition.xls',
                        sheet = c('Entity','Relationship'),
                        Name.DataBase = 'DB release_0.1',
-                       db.filename   = 'NA') {
+                       output.csv    = NA) {
 
   ### Crea contenedores tablas receptores
   INDIVIDUAL  <- ids.skeleton$INDIVIDUAL
@@ -171,6 +169,15 @@ transposer <- function(file.definition  = 'EntityRelationDefinition.xls',
                    CONTEXT_CONTEXT=CONTEXT_CONTEXT
                    )
 
+  if (! is.na(output.csv) ) {
+     dir.create(output.csv)
+     if ( dir.exists(output.csv))  {
+       for (i in  names(outcome)) {
+         write.csv(outcome[[i]],file=paste0(output.csv,'/',i,'.CSV'),
+                      na='',row.names=FALSE)
+       }
+     }
+  }
   return(outcome)
 }
 
