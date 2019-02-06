@@ -4,23 +4,20 @@
 \alias{ddate2date}
 \title{ddate2date}
 \usage{
-ddate2date(ddate, type = "start", with = 0.1)
+ddate2date(ddate, type = "start")
 }
 \arguments{
-\item{ddate}{Un valor numerico con el significado de años decimales}
+\item{ddate}{A numeric value in years with decimals}
 
-\item{type}{!no implementado!}
-
-\item{with}{!no implementado!}
+\item{type}{Not yet implemented}
 }
 \value{
 date.table con solo una fechas: start.date
 }
 \description{
-Transforma una fecha en formato decimal a formato fecha (puntual o intervalo)
+Transform a date in decimal year format to a specific day or a range of days
 }
 \examples{
 ddate2date(1985 + seq(0,1,by=.1))
 ddate2date(1984 + seq(0,1,by=.1))
-ddate2date(1988 + seq(0,1,by=.1))
 }

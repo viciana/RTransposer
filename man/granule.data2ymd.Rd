@@ -7,13 +7,17 @@
 granule.data2ymd(dt.date)
 }
 \arguments{
-\item{dt.date}{tabla con columnas: start.date   end.date central.date}
+\item{dt.date}{data.table with columns: start.date end.date
+central.date}
 }
 \value{
-data.table con columnas: Year	Month	Day	Start_year	Start_month	Start_day	End_year	End_month	End_day
+data.table with columns: Year Month Day Start_year
+    Start_month Start_day End_year End_month End_day
 }
 \description{
-Matriz de 3 fechas a matiz númerica de 9 elementos
+Transform a table of 3 columns in format dates to table with 9
+ columns of integers (convert each date into 3 integers: year,
+ month, day)
 }
 \examples{
     dt.date <-  ddate2date.3d(1985 + seq(0,1,by=.1))

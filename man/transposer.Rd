@@ -9,23 +9,25 @@ transposer(file.definition = "EntityRelationDefinition.xls",
   Name.DataBase = "DB release_0.1", db.filename = "NA")
 }
 \arguments{
-\item{file.definition}{xlxs con las especificaciones de la expresión de importanción
-relativas a los objetos data.table que deben de estar previamente
-presentes en .GlobalEnv}
+\item{file.definition}{xlsx-files with the instructions to perform
+the transfer of the data contained in the data.table objects
+present in .GlobalEnv to the tables required by the IDS format}
 
-\item{sheet}{nombre de la hoja dentro del libro}
+\item{sheet}{Name of the pages within the book that contain the
+instructions. Only 'Entity' and/or 'Relationship' is allowed.}
 
-\item{Name.DataBase}{de la BD en IDS}
+\item{Name.DataBase}{Name of the database that identifies the data
+within the IDS network.}
 
-\item{db.filename}{(aun no implemetado, DB SQLite donde se almacenara
-la estructura IDS)}
+\item{db.filename}{Not yet implemented. The name will be the SQLite
+database where the results will be stored in IDS format.}
 }
 \value{
-outcome  una lista con las tablas INDIVIDUAL, CONTEXT, ...
-         con los resultados de la carga  (en versiones porterires se alamacenara
-         sobre una base de datos SQLite)
+outcome A list with the tables INDIVIDUAL, CONTEXT,
+    INDIV_INDIV, INDIV_CONTEXT, CONTEXT_CONTEXT with the results of
+    the data transfer,
 }
 \description{
-Funcion principal para importar un conjunto de tablas presentes
-   en  .GlobalEnv sobre una estructura IDS
+Main function to tranfer a set of data.table(s) present in
+ .GlobalEnv on an IDS structure
 }

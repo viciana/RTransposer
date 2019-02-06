@@ -1,13 +1,11 @@
 ################################################################################
 #' ddate2date
 #'
-#' Transforma una fecha en formato decimal a formato fecha (puntual o intervalo)
+#' Transform a date in decimal year format to a specific day or a range of days
 #'
-#' @param ddate Un valor numerico con el significado de años decimales
+#' @param ddate A numeric value in years with decimals
 #'
-#' @param type !no implementado!
-#'
-#' @param with !no implementado!
+#' @param type Not yet implemented
 #'
 #' @export
 #'
@@ -15,8 +13,7 @@
 #' @examples
 #' ddate2date(1985 + seq(0,1,by=.1))
 #' ddate2date(1984 + seq(0,1,by=.1))
-#' ddate2date(1988 + seq(0,1,by=.1))
-ddate2date <-  function (ddate,type='start',with = 0.1) {
+ddate2date <-  function (ddate,type='start') {
   start.date <- Epi::as.Date.cal.yr(ddate)
   return( data.table::data.table(start.date=start.date))
 }
@@ -25,13 +22,14 @@ ddate2date <-  function (ddate,type='start',with = 0.1) {
 ################################################################################
 #' ddate2date.3d
 #'
-#' Transforma una fecha en formato decimal a formato fecha (puntual o intervalo)
+#'Transform a date in decimal year format to  range of days
+#' 
 #'
-#' @param ddate Un valor numerico con el significado de años decimales
+#' @param ddate A numeric value in years with decimals
 #'
 #' @param type  !no implementado!
 #'
-#' @param with  ancho del granulo temporal que comienza en ddate, por defecto 0.1
+#' @param with Width of the temporal granule that begins in ddate. By default 0.1 year
 #'
 #' @export
 #'
@@ -41,7 +39,6 @@ ddate2date <-  function (ddate,type='start',with = 0.1) {
 #' @examples
 #' ddate2date.3d(1985 + seq(0,1,by=.1))
 #' ddate2date.3d(1984 + seq(0,1,by=.1))
-#' ddate2date.3d(1988 + seq(0,1,by=.1))
 ddate2date.3d <-  function (ddate,type='start',with = 0.1) {
   start.date <- Epi::as.Date.cal.yr(ddate)
   end.date  <- Epi::as.Date.cal.yr(ddate+with) -1
@@ -52,13 +49,13 @@ ddate2date.3d <-  function (ddate,type='start',with = 0.1) {
 ################################################################################
 #' date2ymd
 #'
-#' Transforma un vector de fechas en una lista  con year, month, day
+#' Transform a date vector into a list with  year, month, day
 #'
-#' @param dates vector con fechas
+#' @param dates vector with dates
 #'
-#' @param  names   contiene 'Year','Month' and 'Day'
+#' @param  names   Contains 'Year','Month' and 'Day'
 #'
-#' @return dt.out   year, month, day
+#' @return dt.out   data.table with column Year, Month and Day
 #'
 #' @export
 #'
@@ -76,14 +73,15 @@ date2ymd <- function (dates,names=c('Year','Month','Day')) {
 ################################################################################
 #' Episod2ymd
 #'
-#' Transforma dos fechas(definen un episodio) en un data.tabla con 6 columnas:
+#' Transform two dates (defining an episode) into a data.table with 6 columns:
+#' 
 #' Start_Year	Start_Month	Start_Day
 #' End_Year	End_Month	End_Day
 #'
 #'
-#' @param  start.date vector de fechas de comienzo
+#' @param  start.date Vector with start dates of episod
 #'
-#' @param  end.date vector de fechas de termininacion del episodio
+#' @param  end.date Vector with ending dates of the episode
 #'
 #' @return data.table con columnas: Start_year	Start_month	Start_day
 #'                                    End_year	End_month	End_day
@@ -105,12 +103,16 @@ Episod2ymd  <- function(start.date,end.date) {
 ################################################################################
 #' granule.data2ymd
 #'
-#'  Matriz de 3 fechas a matiz númerica de 9 elementos
+#'  Transform a table of 3 columns in format dates to table with 9
+#'  columns of integers (convert each date into 3 integers: year,
+#'  month, day)
 #'
 #'
-#' @param  dt.date  tabla con columnas: start.date   end.date central.date
+#' @param dt.date data.table with columns: start.date end.date
+#'     central.date
 #'
-#' @return data.table con columnas: Year	Month	Day	Start_year	Start_month	Start_day	End_year	End_month	End_day
+#' @return data.table with columns: Year Month Day Start_year
+#'     Start_month Start_day End_year End_month End_day
 #'
 #' @export
 #'

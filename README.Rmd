@@ -1,13 +1,5 @@
 ---
 title: "README"
-<<<<<<< HEAD
-url: https://viciana.github.io/RTransposer/
-=======
-url: 
-template
-navbar
-
->>>>>>> a73c83f480d657cbeb18e631661831dbd6049532
 date:  "`r format(Sys.time(), '%d %B, %Y')`"
 output: rmarkdown::github_document
 ---
@@ -18,4 +10,4 @@ output: rmarkdown::github_document
 Transfer data from a set of *data.table R-objects* to a longitudinal biographical database according to the rules of the *Intermediate Data Structure* (IDS) ([Alter and Mandemakers, 2014](https://ehps-net.eu/article/intermediate-data-structure-ids-longitudinal-historical-microdata-version-4))
 
 
-
+- [Proyect page](https://viciana.github.io/RTransposer/)
