@@ -32,8 +32,8 @@
 
 <meta property="og:title" content="transposer — transposer" />
 
-<meta property="og:description" content="Funcion principal para importar un conjunto de tablas presentes
-   en  .GlobalEnv sobre una estructura IDS" />
+<meta property="og:description" content="Main function to tranfer a set of data.table(s) present in
+ .GlobalEnv on an IDS structure" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -117,8 +117,8 @@
 
     <div class="ref-description">
     
-    <p>Funcion principal para importar un conjunto de tablas presentes
-   en  .GlobalEnv sobre una estructura IDS</p>
+    <p>Main function to tranfer a set of data.table(s) present in
+ .GlobalEnv on an IDS structure</p>
     
     </div>
 
@@ -131,30 +131,32 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>file.definition</th>
-      <td><p>xlxs con las especificaciones de la expresión de importanción
-relativas a los objetos data.table que deben de estar previamente
-presentes en .GlobalEnv</p></td>
+      <td><p>xlsx-files with the instructions to perform
+the transfer of the data contained in the data.table objects
+present in .GlobalEnv to the tables required by the IDS format</p></td>
     </tr>
     <tr>
       <th>sheet</th>
-      <td><p>nombre de la hoja dentro del libro</p></td>
+      <td><p>Name of the pages within the book that contain the
+instructions. Only 'Entity' and/or 'Relationship' is allowed.</p></td>
     </tr>
     <tr>
       <th>Name.DataBase</th>
-      <td><p>de la BD en IDS</p></td>
+      <td><p>Name of the database that identifies the data
+within the IDS network.</p></td>
     </tr>
     <tr>
       <th>db.filename</th>
-      <td><p>(aun no implemetado, DB SQLite donde se almacenara
-la estructura IDS)</p></td>
+      <td><p>Not yet implemented. The name will be the SQLite
+database where the results will be stored in IDS format.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>outcome  una lista con las tablas INDIVIDUAL, CONTEXT, ...
-         con los resultados de la carga  (en versiones porterires se alamacenara
-         sobre una base de datos SQLite)</p>
+    <p>outcome A list with the tables INDIVIDUAL, CONTEXT,
+    INDIV_INDIV, INDIV_CONTEXT, CONTEXT_CONTEXT with the results of
+    the data transfer,</p>
     
 
   </div>
