@@ -7,22 +7,21 @@
 ddate2date.3d(ddate, type = "start", with = 0.1)
 }
 \arguments{
-\item{ddate}{Un valor numerico con el significado de años decimales}
+\item{ddate}{A numeric value in years with decimals}
 
 \item{type}{!no implementado!}
 
-\item{with}{ancho del granulo temporal que comienza en ddate, por defecto 0.1}
+\item{with}{Width of the temporal granule that begins in ddate. By default 0.1 year}
 }
 \value{
 date.table con 3 fechas: start.date, end.date, central.date
 }
 \description{
-Transforma una fecha en formato decimal a formato fecha (puntual o intervalo)
+Transform a date in decimal year format to  range of days
 }
 \examples{
 ddate2date.3d(1985 + seq(0,1,by=.1))
 ddate2date.3d(1984 + seq(0,1,by=.1))
-ddate2date.3d(1988 + seq(0,1,by=.1))
 }
 \seealso{
 ddate2date

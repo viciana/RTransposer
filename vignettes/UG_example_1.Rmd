@@ -16,39 +16,42 @@ knitr::opts_chunk$set(
 )
 ```
 
-Se muestra como usar [R](https://www.r-project.org/) y el paquete **RTransposer** para importar el ejemplo (1) suministrados por [Alter en  el repositorio del paquete "Transposer"](https://github.com/ICPSR/IDS) 
+It shows how to use [R] (https://www.r-roject.org/) and the package ** RTransposer ** to import the example (1) supplied
+by [Alter in the github repositiry  "Transposer"](https://github.com/ICPSR/IDS)
 
 ## Preparacion de los datos fuente.
 
-Descargamos los datos del repositorio github: ICPSR/IDS correspondientes al  ejemplo-1 (UG_example_1) y descomprimimos el libro excell *UG_Example_1_v10.xlsx*
+
+Download the data from the github repository: ICPSR / IDS corresponding to example-1 (UG_example_1) and unzip the book excell *UG_Example_1_v10.xlsx*
 
 ```{r}
 library(RTransposer)
-require(data.table) ## no tendria que ser necesario ??
-require(readxl)     ## no tendria que ser necesario ??
-rm(list = ls())     ## limpiamos memoria de procesados previos
+require(data.table) 
+require(readxl)
+rm(list = ls())
 
-tmpLoc <- tempdir() ; print(tmpLoc)  
+tmpLoc <- tempdir() ; print(tmpLoc)
 ## Descarga y descomprensión
 zipfile <-  paste0(tmpLoc,'/UG_example_1.zip')
 
 download.file('https://github.com/ICPSR/IDS/raw/master/User_Guide/UG_example_1.zip', 
               destfile = zipfile )
-unzip(zipfile,list = T)  
+unzip(zipfile,list = T)
 
-unzip(zipfile,files = 'UG_Example_1_v10.xlsx',  exdir =  tmpLoc )  
+unzip(zipfile,files = 'UG_Example_1_v10.xlsx',  exdir =  tmpLoc )
 xfile <- paste0(tmpLoc,'/UG_Example_1_v10.xlsx')
 file.remove(zipfile)
 
 ```
-Extraemos los datos de las hojas *parent* y *children* y los almacenamos en un objeto del tipo *data.table* y creamos algunas tablas auxiliares derivadas de estas dos tablas fuentes:
+
+We extract the data from the data sheets * parent * and * children * and store them in an object of type * data.table *. Next we create some auxiliary tables derived from the two original source tables:
 ```{r}
 
 as.data.table(read_xlsx(xfile, sheet = 'parents'))  -> parents
 as.data.table(read_xlsx(xfile, sheet = 'children')) -> children
 
 #------------------------------------
-# Create INPUT tables derived from primaries (if necessary)
+# Create INPUT-tables derived from primary tables (if necessary)
 #------------------------------------
 parents[,.(parid,hlast,marriage)][ 
    children[,

@@ -7,13 +7,13 @@
 date2ymd(dates, names = c("Year", "Month", "Day"))
 }
 \arguments{
-\item{dates}{vector con fechas}
+\item{dates}{vector with dates}
 
-\item{names}{contiene 'Year','Month' and 'Day'}
+\item{names}{Contains 'Year','Month' and 'Day'}
 }
 \value{
-dt.out   year, month, day
+dt.out   data.table with column Year, Month and Day
 }
 \description{
-Transforma un vector de fechas en una lista  con year, month, day
+Transform a date vector into a list with  year, month, day
 }
